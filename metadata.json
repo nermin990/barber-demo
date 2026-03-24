@@ -1,0 +1,5 @@
+{
+  "name": "The Barber Studio Dorćol",
+  "description": "Premium berbersko iskustvo u srcu Beograda. Vrhunsko šišanje, sređivanje brade i rituali brijanja.",
+  "requestFramePermissions": ["geolocation"]
+}
