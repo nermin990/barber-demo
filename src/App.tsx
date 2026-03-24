@@ -286,12 +286,12 @@ export default function App() {
               Premium Berbersko Iskustvo • Dorćol
             </span>
             <h1 className="text-5xl md:text-8xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
-              Definišite svoj stil. <br />
-              <span className="italic font-normal text-[#D4AF37]">Bez kompromisa.</span>
+              Umetnost preciznosti. <br />
+              <span className="italic font-normal text-gold">Vaš novi standard.</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-              Više od šišanja – ritual preciznosti i muške nege u srcu Beograda. 
-              Mesto gde se tradicija susreće sa modernim stilom.
+              U srcu Dorćola, spajamo decenijsku tradiciju berberaja sa beskompromisnom modernom estetikom. 
+              Doživite ritual koji definiše karakter.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <button 
@@ -391,20 +391,22 @@ export default function App() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-32 px-6">
+      <section className="py-32 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12">
             {[
-              { title: "Premium Usluga", desc: "Beskompromisni kvalitet u svakom potezu makaza.", icon: <Award className="w-8 h-8 text-[#D4AF37]" /> },
-              { title: "Iskusni Berberi", desc: "Majstori zanata sa višegodišnjim iskustvom.", icon: <Users className="w-8 h-8 text-[#D4AF37]" /> },
-              { title: "Vrhunski Proizvodi", desc: "Koristimo samo najbolje svetske brendove za negu.", icon: <Sparkles className="w-8 h-8 text-[#D4AF37]" /> },
-              { title: "Lako Zakazivanje", desc: "Vaš termin je samo par klikova daleko.", icon: <CalendarDays className="w-8 h-8 text-[#D4AF37]" /> }
+              { title: "Vrhunska Preciznost", desc: "Svaki potez je proračunat. Naš fokus je na detaljima koji čine razliku.", icon: <Award className="w-8 h-8 text-gold" /> },
+              { title: "Master Berberi", desc: "Tim stručnjaka posvećenih usavršavanju muškog stila i nege.", icon: <Users className="w-8 h-8 text-gold" /> },
+              { title: "Ekskluzivna Nega", desc: "Koristimo isključivo premium proizvode renomiranih svetskih brendova.", icon: <Sparkles className="w-8 h-8 text-gold" /> },
+              { title: "Digitalni Rezervat", desc: "Brzo i lako zakazivanje termina prilagođeno Vašem tempu života.", icon: <CalendarDays className="w-8 h-8 text-gold" /> }
             ].map((item, idx) => (
-              <div key={idx} className="text-center">
-                <div className="flex justify-center mb-6">{item.icon}</div>
-                <h4 className="text-sm font-bold uppercase tracking-widest mb-3">{item.title}</h4>
-                <p className="text-gray-500 text-sm font-light leading-relaxed">{item.desc}</p>
-              </div>
+              <Reveal key={idx} delay={idx * 0.1}>
+                <div className="text-center group">
+                  <div className="flex justify-center mb-6 transform group-hover:scale-110 transition-transform duration-500">{item.icon}</div>
+                  <h4 className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-white">{item.title}</h4>
+                  <p className="text-gray-500 text-sm font-light leading-relaxed max-w-[200px] mx-auto">{item.desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -481,22 +483,29 @@ export default function App() {
       </section>
 
       {/* Reviews */}
-      <section className="py-32 px-6 bg-[#0F0F0F]">
+      <section className="py-40 px-6 bg-[#0F0F0F] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
         <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-24">
+            <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block">Utisci Klijenata</span>
+            <h2 className="text-4xl md:text-5xl font-serif">Reč Naših Stalnih Gostiju</h2>
+          </div>
           <div className="grid md:grid-cols-3 gap-16">
             {REVIEWS.map((review, idx) => (
-              <div key={idx} className="relative">
-                <div className="flex mb-6">
-                  {[...Array(review.stars)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-[#D4AF37] text-[#D4AF37]" />
-                  ))}
+              <Reveal key={idx} delay={idx * 0.1}>
+                <div className="relative">
+                  <div className="flex mb-6">
+                    {[...Array(review.stars)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-gold text-gold" />
+                    ))}
+                  </div>
+                  <p className="text-xl font-serif italic mb-8 leading-relaxed text-gray-300">"{review.text}"</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-[1px] bg-gold" />
+                    <p className="font-bold text-[10px] uppercase tracking-[0.3em] text-white">{review.name}</p>
+                  </div>
                 </div>
-                <p className="text-xl font-serif italic mb-8 leading-relaxed text-gray-300">"{review.text}"</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-[1px] bg-[#D4AF37]" />
-                  <p className="font-bold text-[10px] uppercase tracking-[0.3em]">{review.name}</p>
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
