@@ -265,7 +265,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1920" 
@@ -282,7 +282,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block px-6 py-2 mb-8 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
+            <span className="inline-block px-6 py-2 mt-12 md:mt-0 mb-8 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
               Premium Berbersko Iskustvo • Dorćol
             </span>
             <h1 className="text-5xl md:text-8xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
