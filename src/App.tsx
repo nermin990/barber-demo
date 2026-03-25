@@ -320,7 +320,7 @@ export default function App() {
                 <img 
                   src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=1000" 
                   alt="Barber working" 
-                  className="w-full h-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-full object-cover rounded-sm transition-all duration-700"
                   referrerPolicy="no-referrer"
                 />
               </div>
