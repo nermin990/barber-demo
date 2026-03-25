@@ -333,7 +333,7 @@ export default function App() {
       <section id="usluge" className="py-32 px-6 bg-[#0F0F0F]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <span className="text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block">Naše Usluge</span>
+            <span className="text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block text-center">Naše Usluge</span>
             <h2 className="text-4xl md:text-5xl font-serif">Vrhunska Usluga</h2>
           </div>
 
@@ -381,8 +381,8 @@ export default function App() {
       {/* Gallery */}
       <section id="galerija" className="py-32 px-6 bg-[#0F0F0F]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-            <div className="max-w-xl">
+          <div className="flex flex-col lg:flex-row justify-between items-start md:items-end lg:items-end mb-20 gap-8">
+            <div className="max-w-xl md:text-right lg:text-left">
               <span className="text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block">Galerija</span>
               <h2 className="text-4xl md:text-5xl font-serif">Naši Radovi</h2>
             </div>
