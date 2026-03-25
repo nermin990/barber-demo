@@ -23,13 +23,14 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import React, { useState, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { Toaster, toast } from 'sonner';
 
-// --- KONFIGURACIJA FORME ---
-// Ovde možete promeniti email adresu ili endpoint servisa za slanje formi.
-// Ako koristite Formspree, zamenite 'nermin.memovic990@gmail.com' sa vašim jedinstvenim ID-jem.
-const FORM_ENDPOINT = "https://formspree.io/f/nermin.memovic990@gmail.com";
+// --- KONTAKT KONFIGURACIJA ---
+const PHONE_DISPLAY = "+381 60 123 4567";
+const PHONE_LINK = "tel:+381601234567";
+const EMAIL = "example@gmail.com";
+const WHATSAPP_LINK = "https://wa.me/381601234567";
+const ADDRESS = "Cara Dušana 42, Dorćol, 11000 Beograd, Srbija";
+const INSTAGRAM_HANDLE = "@thebarberstudio";
 
 // Reveal Component for scroll animations
 const Reveal = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number, key?: any }) => {
@@ -42,109 +43,6 @@ const Reveal = ({ children, delay = 0 }: { children: React.ReactNode, delay?: nu
     >
       {children}
     </motion.div>
-  );
-};
-
-// Booking Modal Component
-const BookingModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
-
-  const onSubmit = async (data: any) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Booking Data:', data);
-    toast.success('Termin uspešno zatražen! Javićemo Vam se ubrzo.', {
-      description: 'Hvala Vam na poverenju.',
-      className: 'bg-black border-gold text-white',
-    });
-    reset();
-    onClose();
-  };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/90 backdrop-blur-sm"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-xl bg-ink border border-white/10 rounded-sm overflow-hidden premium-shadow"
-          >
-            <div className="p-8 md:p-12">
-              <button onClick={onClose} className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors">
-                <X size={24} />
-              </button>
-              
-              <div className="text-center mb-10">
-                <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block">Rezervacija</span>
-                <h2 className="text-3xl md:text-4xl font-serif">Zakažite Svoj Ritual</h2>
-              </div>
-
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Ime i Prezime</label>
-                    <input 
-                      {...register('name', { required: true })}
-                      placeholder="Petar Petrović"
-                      className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
-                    />
-                    {errors.name && <span className="text-red-500 text-[10px] uppercase tracking-widest">Obavezno polje</span>}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Telefon</label>
-                    <input 
-                      {...register('phone', { required: true })}
-                      placeholder="+381 60 123 4567"
-                      className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
-                    />
-                    {errors.phone && <span className="text-red-500 text-[10px] uppercase tracking-widest">Obavezno polje</span>}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Usluga</label>
-                  <select 
-                    {...register('service', { required: true })}
-                    className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all appearance-none"
-                  >
-                    <option value="" className="bg-ink">Izaberite uslugu</option>
-                    <option value="sisanje" className="bg-ink">Muško šišanje</option>
-                    <option value="fade" className="bg-ink">Fade šišanje</option>
-                    <option value="brada" className="bg-ink">Sređivanje brade</option>
-                    <option value="paket" className="bg-ink">Paket: Šišanje + Brada</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Željeni Datum i Vreme</label>
-                  <input 
-                    type="datetime-local"
-                    {...register('datetime', { required: true })}
-                    className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all"
-                  />
-                </div>
-
-                <button 
-                  disabled={isSubmitting}
-                  className="w-full bg-gold text-black py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-                >
-                  {isSubmitting ? 'Slanje...' : 'Potvrdi Rezervaciju'}
-                </button>
-              </form>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
   );
 };
 
@@ -194,80 +92,6 @@ const Lightbox = ({ isOpen, image, onClose }: { isOpen: boolean, image: string |
         </div>
       )}
     </AnimatePresence>
-  );
-};
-
-// Contact Form Component
-const ContactForm = () => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
-
-  const onSubmit = async (data: any) => {
-    try {
-      const response = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        toast.success('Poruka uspešno poslata!', {
-          description: 'Odgovorićemo Vam u najkraćem mogućem roku.',
-          className: 'bg-black border-gold text-white',
-        });
-        reset();
-      } else {
-        throw new Error('Greška pri slanju');
-      }
-    } catch (error) {
-      toast.error('Došlo je do greške.', {
-        description: 'Molimo pokušajte ponovo kasnije ili nas pozovite direktno.',
-        className: 'bg-black border-red-500 text-white',
-      });
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Ime</label>
-          <input 
-            {...register('name', { required: true })}
-            placeholder="Vaše ime"
-            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
-          />
-          {errors.name && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
-        </div>
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Kontakt</label>
-          <input 
-            {...register('contact', { required: true })}
-            placeholder="Email ili telefon"
-            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
-          />
-          {errors.contact && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
-        </div>
-      </div>
-      <div className="space-y-2">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Poruka</label>
-        <textarea 
-          {...register('message', { required: true })}
-          placeholder="Vaša poruka..."
-          rows={4}
-          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700 resize-none"
-        />
-        {errors.message && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
-      </div>
-      <button 
-        disabled={isSubmitting}
-        className="w-full bg-transparent border border-gold/30 text-gold py-4 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-gold hover:text-black transition-all duration-500 disabled:opacity-50"
-      >
-        {isSubmitting ? 'Slanje...' : 'Pošalji Poruku'}
-      </button>
-    </form>
   );
 };
 
@@ -324,7 +148,6 @@ const REVIEWS = [
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -426,7 +249,7 @@ export default function App() {
             <span className="inline-block px-6 py-2 mt-16 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
               Premium Berbersko Iskustvo • Dorćol
             </span>
-            <h1 className="text-5xl md:text-8xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
               Umetnost preciznosti. <br />
               <span className="italic font-normal text-gold">Vaš novi standard.</span>
             </h1>
@@ -442,7 +265,7 @@ export default function App() {
                 Zakaži Termin
               </button>
               <a 
-                href="https://wa.me/38160000000" 
+                href={WHATSAPP_LINK} 
                 className="w-full sm:w-auto flex items-center justify-center gap-3 border border-white/10 px-12 py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/5 transition-all duration-300"
               >
                 <MessageCircle className="w-5 h-5 text-gold" />
@@ -672,7 +495,7 @@ export default function App() {
               Rezerviši Odmah
             </button>
             <a 
-              href="tel:+381601234567" 
+              href={PHONE_LINK} 
               className="w-full sm:w-auto flex items-center justify-center gap-3 border border-white/10 px-12 py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/5 transition-all duration-300"
             >
               <Phone className="w-4 h-4" /> Pozovi Studio
@@ -685,26 +508,29 @@ export default function App() {
       <section id="kontakt" className="py-32 px-6 border-t border-white/5 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-24">
-            {/* Left Column: Info */}
+            {/* Left Column: Info & Map */}
             <div className="space-y-16">
               <Reveal>
                 <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-6 block">Kontakt</span>
                 <h2 className="text-4xl md:text-5xl font-serif mb-12">Gde se nalazimo</h2>
                 
                 <div className="grid sm:grid-cols-2 gap-12">
-                  <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <MapPin className="w-5 h-5 text-gold mt-1 shrink-0" />
+                  <div className="space-y-8">
+                    <div className="flex items-start gap-4 group">
+                      <div className="w-10 h-10 border border-gold/20 rounded-sm flex items-center justify-center shrink-0 group-hover:bg-gold group-hover:text-black transition-all duration-500">
+                        <MapPin className="w-5 h-5" />
+                      </div>
                       <div>
                         <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Lokacija</h4>
                         <p className="text-gray-400 font-light text-sm leading-relaxed">
-                          Cara Dušana 42, Dorćol<br />
-                          11000 Beograd, Srbija
+                          {ADDRESS}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4">
-                      <Clock className="w-5 h-5 text-gold mt-1 shrink-0" />
+                    <div className="flex items-start gap-4 group">
+                      <div className="w-10 h-10 border border-gold/20 rounded-sm flex items-center justify-center shrink-0 group-hover:bg-gold group-hover:text-black transition-all duration-500">
+                        <Clock className="w-5 h-5" />
+                      </div>
                       <div>
                         <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Radno Vreme</h4>
                         <div className="text-gray-400 font-light text-sm space-y-1">
@@ -716,19 +542,23 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <Phone className="w-5 h-5 text-gold mt-1 shrink-0" />
+                  <div className="space-y-8">
+                    <div className="flex items-start gap-4 group">
+                      <div className="w-10 h-10 border border-gold/20 rounded-sm flex items-center justify-center shrink-0 group-hover:bg-gold group-hover:text-black transition-all duration-500">
+                        <Phone className="w-5 h-5" />
+                      </div>
                       <div>
                         <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Telefon</h4>
-                        <p className="text-gray-400 font-light text-sm">+381 60 123 4567</p>
+                        <a href={PHONE_LINK} className="text-gray-400 font-light text-sm hover:text-gold transition-colors">{PHONE_DISPLAY}</a>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4">
-                      <Instagram className="w-5 h-5 text-gold mt-1 shrink-0" />
+                    <div className="flex items-start gap-4 group">
+                      <div className="w-10 h-10 border border-gold/20 rounded-sm flex items-center justify-center shrink-0 group-hover:bg-gold group-hover:text-black transition-all duration-500">
+                        <Instagram className="w-5 h-5" />
+                      </div>
                       <div>
                         <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Social</h4>
-                        <p className="text-gray-400 font-light text-sm">@thebarberstudio</p>
+                        <a href={`https://instagram.com/${INSTAGRAM_HANDLE.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 font-light text-sm hover:text-gold transition-colors">{INSTAGRAM_HANDLE}</a>
                       </div>
                     </div>
                   </div>
@@ -736,7 +566,7 @@ export default function App() {
               </Reveal>
 
               <Reveal delay={0.2}>
-                <div className="aspect-video bg-white/5 rounded-sm overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-700">
+                <div className="aspect-[16/10] bg-white/5 rounded-sm overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-700 premium-shadow">
                   <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2829.866584284451!2d20.45712431552033!3d44.82136497909874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab390317921%3A0x889d316474641e4!2sCara%20Du%C5%A1ana%2042%2C%20Beograd!5e0!3m2!1ssr!2srs!4v1648041234567!5m2!1ssr!2srs" 
                     width="100%" 
@@ -750,12 +580,48 @@ export default function App() {
               </Reveal>
             </div>
 
-            {/* Right Column: Form */}
+            {/* Right Column: Premium CTA Card */}
             <div className="relative">
               <Reveal delay={0.3}>
-                <div className="p-8 md:p-12 bg-black border border-white/5 rounded-sm premium-shadow">
-                  <h3 className="text-2xl font-serif mb-8 tracking-wide">Pošaljite nam poruku</h3>
-                  <ContactForm />
+                <div className="p-10 md:p-16 bg-black border border-white/5 rounded-sm premium-shadow relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl -mr-16 -mt-16 group-hover:bg-gold/10 transition-colors duration-700" />
+                  
+                  <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-6 block">Rezervacija</span>
+                  <h3 className="text-3xl md:text-4xl font-serif mb-8 tracking-wide">Rezervišite termin</h3>
+                  <p className="text-gray-400 font-light text-lg leading-relaxed mb-12">
+                    Najbrži način za zakazivanje je putem WhatsApp poruke ili poziva. Tu smo da odgovorimo brzo i dogovorimo termin koji Vam odgovara.
+                  </p>
+
+                  <div className="space-y-6">
+                    <a 
+                      href={WHATSAPP_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-4 w-full bg-gold text-black py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-xl shadow-gold/10"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Pošalji WhatsApp poruku
+                    </a>
+                    
+                    <a 
+                      href={PHONE_LINK}
+                      className="flex items-center justify-center gap-4 w-full bg-transparent border border-white/10 text-white py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/5 transition-all duration-500"
+                    >
+                      <Phone className="w-5 h-5 text-gold" />
+                      Pozovite nas
+                    </a>
+
+                    <div className="pt-8 border-t border-white/5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Email</span>
+                        <a href={`mailto:${EMAIL}`} className="text-sm text-gold hover:text-white transition-colors lowercase">{EMAIL}</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="mt-10 text-[10px] text-gray-600 uppercase tracking-[0.3em] text-center italic">
+                    Odgovaramo u najkraćem mogućem roku.
+                  </p>
                 </div>
               </Reveal>
               {/* Decorative element */}
@@ -782,7 +648,7 @@ export default function App() {
       {/* Sticky Mobile CTAs */}
       <div className="fixed bottom-6 left-6 right-6 z-50 flex gap-3 md:hidden">
         <a 
-          href="tel:+381601234567" 
+          href={PHONE_LINK} 
           className="flex-1 bg-white text-black py-4 rounded-sm flex items-center justify-center gap-2 shadow-2xl font-bold text-[10px] uppercase tracking-widest"
         >
           <Phone className="w-4 h-4" /> Pozovi
@@ -795,9 +661,7 @@ export default function App() {
         </button>
       </div>
 
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
       <Lightbox isOpen={isLightboxOpen} image={selectedImage} onClose={closeLightbox} />
-      <Toaster position="top-center" />
     </div>
   );
 }
