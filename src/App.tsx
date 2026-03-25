@@ -229,7 +229,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-32 md:pt-0">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-0">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1920" 
