@@ -257,7 +257,7 @@ export default function App() {
               U srcu Dorćola, spajamo decenijsku tradiciju berberaja sa beskompromisnom modernom estetikom. 
               Doživite ritual koji definiše karakter.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
               <button 
                 onClick={() => scrollToSection('kontakt')}
                 className="w-full sm:w-auto bg-gold text-black px-12 py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-2xl shadow-gold/10"
