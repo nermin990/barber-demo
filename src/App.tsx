@@ -185,7 +185,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans selection:bg-[#D4AF37] selection:text-black">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden">
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-black/95 backdrop-blur-md border-b border-white/5 py-3' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -216,7 +216,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween', duration: 0.4 }}
-            className="fixed inset-0 z-40 bg-black pt-32 px-10 md:hidden"
+            className="fixed inset-0 z-40 bg-black pt-32 px-6 md:hidden"
           >
             <div className="flex flex-col space-y-10 text-3xl font-serif text-center uppercase tracking-widest">
               <button onClick={() => scrollToSection('o-nama')}>O nama</button>
@@ -246,7 +246,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block px-6 py-2 mt-10 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
+            <span className="inline-block px-4 md:px-6 py-2 mt-10 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[9px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
               Premium Berbersko Iskustvo • Dorćol
             </span>
             <h1 className="text-5xl md:text-6xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
@@ -287,6 +287,7 @@ export default function App() {
 
       {/* About Section */}
       <section id="o-nama" className="py-32 px-6 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-20 items-center">
             <Reveal>
               <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-6 block">Naša Priča</span>
@@ -325,6 +326,7 @@ export default function App() {
               </div>
             </Reveal>
           </div>
+        </div>
       </section>
 
       {/* Services Section */}
@@ -443,10 +445,10 @@ export default function App() {
             ].map((item, idx) => (
               <div key={idx} className="flex justify-between items-end border-b border-white/5 pb-6 group">
                 <div>
-                  <h4 className="text-l uppercase tracking-wider group-hover:text-[#D4AF37] transition-colors mb-1">{item.name}</h4>
+                  <h4 className="text-base md:text-lg uppercase tracking-wider group-hover:text-[#D4AF37] transition-colors mb-1">{item.name}</h4>
                   <span className="text-[10px] text-gray-600 uppercase tracking-widest">{item.time}</span>
                 </div>
-                               <span style={{ minWidth: "fit-content" }} className="font-mono text-[#D4AF37] text-l">{item.price}</span>
+                <span style={{ minWidth: "fit-content" }} className="font-mono text-[#D4AF37] text-base md:text-lg">{item.price}</span>
               </div>
             ))}
           </div>
