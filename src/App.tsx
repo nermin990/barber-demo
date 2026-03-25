@@ -269,7 +269,7 @@ export default function App() {
                 className="w-full sm:w-auto flex items-center justify-center gap-3 border border-white/10 px-12 py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/5 transition-all duration-300"
               >
                 <MessageCircle className="w-5 h-5 text-gold" />
-                WhatsApp Upit
+                WhatsApp
               </a>
             </div>
           </motion.div>
@@ -443,11 +443,11 @@ export default function App() {
             ].map((item, idx) => (
               <div key={idx} className="flex justify-between items-end border-b border-white/5 pb-6 group">
                 <div>
-                  <h4 className="text-lg uppercase tracking-wider group-hover:text-[#D4AF37] transition-colors mb-1">{item.name}</h4>
+                  <h4 className="text-l uppercase tracking-wider group-hover:text-[#D4AF37] transition-colors mb-1">{item.name}</h4>
                   <span className="text-[10px] text-gray-600 uppercase tracking-widest">{item.time}</span>
                 </div>
                 <div className="flex-1 border-b border-dotted border-white/10 mx-6 mb-2" />
-                <span className="font-mono text-[#D4AF37] text-lg">{item.price}</span>
+                <span className="font-mono text-[#D4AF37] text-l">{item.price}</span>
               </div>
             ))}
           </div>
@@ -600,7 +600,7 @@ export default function App() {
                       className="flex items-center justify-center gap-4 w-full bg-gold text-black py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-xl shadow-gold/10"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      Pošalji WhatsApp poruku
+                       WhatsApp Poruka
                     </a>
                     
                     <a 
