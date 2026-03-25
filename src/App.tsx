@@ -143,6 +143,111 @@ const BookingModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
   );
 };
 
+// Lightbox Component
+const Lightbox = ({ isOpen, image, onClose }: { isOpen: boolean, image: string | null, onClose: () => void }) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && image && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/95 backdrop-blur-md cursor-pointer"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="relative z-10 max-w-full max-h-full flex items-center justify-center"
+          >
+            <button 
+              onClick={onClose} 
+              className="absolute -top-12 right-0 md:-right-12 text-white/50 hover:text-gold transition-colors p-2"
+              aria-label="Zatvori"
+            >
+              <X size={32} />
+            </button>
+            <img 
+              src={image} 
+              alt="Gallery Fullscreen" 
+              className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl border border-white/5"
+              onClick={(e) => e.stopPropagation()}
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Contact Form Component
+const ContactForm = () => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+
+  const onSubmit = async (data: any) => {
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log('Contact Form Data:', data);
+    toast.success('Poruka poslata!', {
+      description: 'Odgovorićemo Vam u najkraćem mogućem roku.',
+      className: 'bg-black border-gold text-white',
+    });
+    reset();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Ime</label>
+          <input 
+            {...register('name', { required: true })}
+            placeholder="Vaše ime"
+            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
+          />
+          {errors.name && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
+        </div>
+        <div className="space-y-2">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Kontakt</label>
+          <input 
+            {...register('contact', { required: true })}
+            placeholder="Email ili telefon"
+            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700"
+          />
+          {errors.contact && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Poruka</label>
+        <textarea 
+          {...register('message', { required: true })}
+          placeholder="Vaša poruka..."
+          rows={4}
+          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:border-gold outline-none transition-all placeholder:text-gray-700 resize-none"
+        />
+        {errors.message && <span className="text-red-500 text-[9px] uppercase tracking-widest">Obavezno polje</span>}
+      </div>
+      <button 
+        disabled={isSubmitting}
+        className="w-full bg-transparent border border-gold/30 text-gold py-4 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-gold hover:text-black transition-all duration-500 disabled:opacity-50"
+      >
+        {isSubmitting ? 'Slanje...' : 'Pošalji Poruku'}
+      </button>
+    </form>
+  );
+};
+
 const SERVICES = [
   {
     title: "Muško šišanje",
@@ -198,6 +303,19 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  const openLightbox = (image: string) => {
+    setSelectedImage(image);
+    setIsLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    document.body.style.overflow = 'unset';
+  };
 
   useEffect(() => {
     // SEO Meta Tags
@@ -282,14 +400,14 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block px-6 py-2 mt-12 md:mt-0 mb-8 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
+            <span className="inline-block px-6 py-2 mt-12 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
               Premium Berbersko Iskustvo • Dorćol
             </span>
             <h1 className="text-5xl md:text-8xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
               Umetnost preciznosti. <br />
               <span className="italic font-normal text-gold">Vaš novi standard.</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed font-light">
               U srcu Dorćola, spajamo decenijsku tradiciju berberaja sa beskompromisnom modernom estetikom. 
               Doživite ritual koji definiše karakter.
             </p>
@@ -426,28 +544,36 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="aspect-[4/5] rounded-sm overflow-hidden group relative"
-              >
-                <img 
-                  src={`https://picsum.photos/seed/barber${i}/800/1000?grayscale`} 
-                  alt="Barber Work" 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center">
-                    <Instagram className="text-white w-5 h-5" />
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+              const imageUrl = `https://picsum.photos/seed/barber${i}/800/1000?grayscale`;
+              return (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="aspect-[4/5] rounded-sm overflow-hidden group relative cursor-pointer"
+                  onClick={() => openLightbox(imageUrl)}
+                >
+                  <img 
+                    src={imageUrl} 
+                    alt="Barber Work" 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                    <div className="absolute inset-4 border border-gold/30 scale-90 group-hover:scale-100 transition-transform duration-500" />
+                    <div className="relative flex flex-col items-center gap-3">
+                      <div className="w-10 h-10 border border-gold/50 rounded-full flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                        <Sparkles className="text-gold w-4 h-4" />
+                      </div>
+                      <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-gold opacity-0 group-hover:opacity-100 transition-opacity delay-100">Pogledaj</span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -533,69 +659,84 @@ export default function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="kontakt" className="py-32 px-6 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16">
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#D4AF37] mb-8">Lokacija</h4>
-            <div className="flex items-start gap-4">
-              <MapPin className="w-5 h-5 text-gray-500 mt-1" />
-              <p className="text-gray-400 font-light leading-relaxed">
-                Cara Dušana 42, Dorćol<br />
-                11000 Beograd, Srbija
-              </p>
-            </div>
-            <div className="mt-8 aspect-video bg-white/5 rounded-sm overflow-hidden border border-white/5">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2829.866584284451!2d20.45712431552033!3d44.82136497909874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab390317921%3A0x889d316474641e4!2sCara%20Du%C5%A1ana%2042%2C%20Beograd!5e0!3m2!1ssr!2srs!4v1648041234567!5m2!1ssr!2srs" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, filter: 'grayscale(1) invert(0.9) contrast(1.2)' }} 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#D4AF37] mb-8">Radno Vreme</h4>
-            <div className="space-y-4">
-              <div className="flex justify-between text-sm border-b border-white/5 pb-2">
-                <span className="text-gray-500">Ponedeljak - Petak</span>
-                <span>10:00 - 20:00</span>
-              </div>
-              <div className="flex justify-between text-sm border-b border-white/5 pb-2">
-                <span className="text-gray-500">Subota</span>
-                <span>09:00 - 17:00</span>
-              </div>
-              <div className="flex justify-between text-sm border-b border-white/5 pb-2">
-                <span className="text-gray-500">Nedelja</span>
-                <span className="text-[#D4AF37]">Neradna</span>
-              </div>
-            </div>
-          </div>
+      <section id="kontakt" className="py-32 px-6 border-t border-white/5 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-24">
+            {/* Left Column: Info */}
+            <div className="space-y-16">
+              <Reveal>
+                <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase mb-6 block">Kontakt</span>
+                <h2 className="text-4xl md:text-5xl font-serif mb-12">Gde se nalazimo</h2>
+                
+                <div className="grid sm:grid-cols-2 gap-12">
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <MapPin className="w-5 h-5 text-gold mt-1 shrink-0" />
+                      <div>
+                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Lokacija</h4>
+                        <p className="text-gray-400 font-light text-sm leading-relaxed">
+                          Cara Dušana 42, Dorćol<br />
+                          11000 Beograd, Srbija
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <Clock className="w-5 h-5 text-gold mt-1 shrink-0" />
+                      <div>
+                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Radno Vreme</h4>
+                        <div className="text-gray-400 font-light text-sm space-y-1">
+                          <p>Pon - Pet: 10:00 - 20:00</p>
+                          <p>Subota: 09:00 - 17:00</p>
+                          <p className="text-gold/60">Nedelja: Neradna</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#D4AF37] mb-8">Kontakt</h4>
-            <div className="space-y-6">
-              <a href="tel:+381601234567" className="flex items-center gap-4 group">
-                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#D4AF37] transition-colors">
-                  <Phone className="w-4 h-4 text-gray-500 group-hover:text-[#D4AF37]" />
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <Phone className="w-5 h-5 text-gold mt-1 shrink-0" />
+                      <div>
+                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Telefon</h4>
+                        <p className="text-gray-400 font-light text-sm">+381 60 123 4567</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <Instagram className="w-5 h-5 text-gold mt-1 shrink-0" />
+                      <div>
+                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Social</h4>
+                        <p className="text-gray-400 font-light text-sm">@thebarberstudio</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-lg">+381 60 123 4567</span>
-              </a>
-              <a href="https://wa.me/381601234567" className="flex items-center gap-4 group">
-                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#D4AF37] transition-colors">
-                  <MessageCircle className="w-4 h-4 text-gray-500 group-hover:text-[#D4AF37]" />
+              </Reveal>
+
+              <Reveal delay={0.2}>
+                <div className="aspect-video bg-white/5 rounded-sm overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-700">
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2829.866584284451!2d20.45712431552033!3d44.82136497909874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab390317921%3A0x889d316474641e4!2sCara%20Du%C5%A1ana%2042%2C%20Beograd!5e0!3m2!1ssr!2srs!4v1648041234567!5m2!1ssr!2srs" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0, filter: 'invert(0.9) contrast(1.2)' }} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
                 </div>
-                <span className="text-lg">WhatsApp Čet</span>
-              </a>
-              <a href="#" className="flex items-center gap-4 group">
-                <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#D4AF37] transition-colors">
-                  <Instagram className="w-4 h-4 text-gray-500 group-hover:text-[#D4AF37]" />
+              </Reveal>
+            </div>
+
+            {/* Right Column: Form */}
+            <div className="relative">
+              <Reveal delay={0.3}>
+                <div className="p-8 md:p-12 bg-black border border-white/5 rounded-sm premium-shadow">
+                  <h3 className="text-2xl font-serif mb-8 tracking-wide">Pošaljite nam poruku</h3>
+                  <ContactForm />
                 </div>
-                <span className="text-lg">@thebarberstudio</span>
-              </a>
+              </Reveal>
+              {/* Decorative element */}
+              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-gold/5 blur-3xl rounded-full -z-10" />
             </div>
           </div>
         </div>
@@ -632,6 +773,7 @@ export default function App() {
       </div>
 
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <Lightbox isOpen={isLightboxOpen} image={selectedImage} onClose={closeLightbox} />
       <Toaster position="top-center" />
     </div>
   );
