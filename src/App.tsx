@@ -446,8 +446,7 @@ export default function App() {
                   <h4 className="text-l uppercase tracking-wider group-hover:text-[#D4AF37] transition-colors mb-1">{item.name}</h4>
                   <span className="text-[10px] text-gray-600 uppercase tracking-widest">{item.time}</span>
                 </div>
-                <div className="flex-1 border-b border-dotted border-white/10 mx-6 mb-2" />
-                <span className="font-mono text-[#D4AF37] text-l">{item.price}</span>
+                               <span style={{ minWidth: "fit-content" }} className="font-mono text-[#D4AF37] text-l">{item.price}</span>
               </div>
             ))}
           </div>
