@@ -513,15 +513,7 @@ export default function App() {
 
       {/* Final CTA */}
       <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <img 
-            src="https://images.unsplash.com/photo-1512690196252-741d2fd36ad0?auto=format&fit=crop&q=80&w=1920" 
-            alt="Barber tools" 
-            className="w-full h-full object-cover grayscale"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
+              <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-6xl font-serif mb-10 leading-tight">Vreme je za Vaš ritual. <br />Zakažite termin danas.</h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <button 
