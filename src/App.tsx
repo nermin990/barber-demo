@@ -26,6 +26,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toaster, toast } from 'sonner';
 
+// --- KONFIGURACIJA FORME ---
+// Ovde možete promeniti email adresu ili endpoint servisa za slanje formi.
+// Ako koristite Formspree, zamenite 'nermin.memovic990@gmail.com' sa vašim jedinstvenim ID-jem.
+const FORM_ENDPOINT = "https://formspree.io/f/nermin.memovic990@gmail.com";
+
 // Reveal Component for scroll animations
 const Reveal = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number, key?: any }) => {
   return (
@@ -197,13 +202,31 @@ const ContactForm = () => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   const onSubmit = async (data: any) => {
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Contact Form Data:', data);
-    toast.success('Poruka poslata!', {
-      description: 'Odgovorićemo Vam u najkraćem mogućem roku.',
-      className: 'bg-black border-gold text-white',
-    });
-    reset();
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        toast.success('Poruka uspešno poslata!', {
+          description: 'Odgovorićemo Vam u najkraćem mogućem roku.',
+          className: 'bg-black border-gold text-white',
+        });
+        reset();
+      } else {
+        throw new Error('Greška pri slanju');
+      }
+    } catch (error) {
+      toast.error('Došlo je do greške.', {
+        description: 'Molimo pokušajte ponovo kasnije ili nas pozovite direktno.',
+        className: 'bg-black border-red-500 text-white',
+      });
+    }
   };
 
   return (
@@ -352,7 +375,7 @@ export default function App() {
               <button onClick={() => scrollToSection('o-nama')} className="hover:text-gold transition-colors">O nama</button>
               <button onClick={() => scrollToSection('usluge')} className="hover:text-gold transition-colors">Usluge</button>
               <button onClick={() => scrollToSection('cenovnik')} className="hover:text-gold transition-colors">Cenovnik</button>
-              <button onClick={() => setIsBookingOpen(true)} className="bg-gold text-black px-8 py-3 rounded-sm hover:bg-white transition-all duration-300">Zakaži</button>
+              <button onClick={() => scrollToSection('kontakt')} className="bg-gold text-black px-8 py-3 rounded-sm hover:bg-white transition-all duration-300">Zakaži</button>
             </div>
 
           {/* Mobile Toggle */}
@@ -376,14 +399,14 @@ export default function App() {
               <button onClick={() => scrollToSection('o-nama')}>O nama</button>
               <button onClick={() => scrollToSection('usluge')}>Usluge</button>
               <button onClick={() => scrollToSection('cenovnik')}>Cenovnik</button>
-              <button onClick={() => { setIsBookingOpen(true); setIsMenuOpen(false); }} className="text-gold">Zakaži Termin</button>
+              <button onClick={() => scrollToSection('kontakt')} className="text-gold">Zakaži Termin</button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-0">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-32 md:pt-0">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1920" 
@@ -400,7 +423,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block px-6 py-2 mt-12 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
+            <span className="inline-block px-6 py-2 mt-16 md:mt-0 mb-4 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold tracking-[0.4em] uppercase rounded-sm bg-[#D4AF37]/5">
               Premium Berbersko Iskustvo • Dorćol
             </span>
             <h1 className="text-5xl md:text-8xl font-serif font-light leading-[1.1] mb-10 tracking-tight">
@@ -413,7 +436,7 @@ export default function App() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <button 
-                onClick={() => setIsBookingOpen(true)}
+                onClick={() => scrollToSection('kontakt')}
                 className="w-full sm:w-auto bg-gold text-black px-12 py-5 rounded-sm text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-2xl shadow-gold/10"
               >
                 Zakaži Termin
@@ -673,7 +696,7 @@ export default function App() {
                     <div className="flex items-start gap-4">
                       <MapPin className="w-5 h-5 text-gold mt-1 shrink-0" />
                       <div>
-                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Lokacija</h4>
+                        <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Lokacija</h4>
                         <p className="text-gray-400 font-light text-sm leading-relaxed">
                           Cara Dušana 42, Dorćol<br />
                           11000 Beograd, Srbija
@@ -683,7 +706,7 @@ export default function App() {
                     <div className="flex items-start gap-4">
                       <Clock className="w-5 h-5 text-gold mt-1 shrink-0" />
                       <div>
-                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Radno Vreme</h4>
+                        <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Radno Vreme</h4>
                         <div className="text-gray-400 font-light text-sm space-y-1">
                           <p>Pon - Pet: 10:00 - 20:00</p>
                           <p>Subota: 09:00 - 17:00</p>
@@ -697,14 +720,14 @@ export default function App() {
                     <div className="flex items-start gap-4">
                       <Phone className="w-5 h-5 text-gold mt-1 shrink-0" />
                       <div>
-                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Telefon</h4>
+                        <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Telefon</h4>
                         <p className="text-gray-400 font-light text-sm">+381 60 123 4567</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
                       <Instagram className="w-5 h-5 text-gold mt-1 shrink-0" />
                       <div>
-                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Social</h4>
+                        <h4 className="text-[14px] font-bold uppercase tracking-widest text-white mb-2">Social</h4>
                         <p className="text-gray-400 font-light text-sm">@thebarberstudio</p>
                       </div>
                     </div>
@@ -765,7 +788,7 @@ export default function App() {
           <Phone className="w-4 h-4" /> Pozovi
         </a>
         <button 
-          onClick={() => setIsBookingOpen(true)}
+          onClick={() => scrollToSection('kontakt')}
           className="flex-1 bg-gold text-black py-4 rounded-sm flex items-center justify-center gap-2 shadow-2xl font-bold text-[10px] uppercase tracking-widest"
         >
           <CalendarDays className="w-4 h-4" /> Zakaži
