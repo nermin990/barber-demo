@@ -146,7 +146,7 @@ const BookingModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
 const SERVICES = [
   {
     title: "Muško šišanje",
-    price: "1.500 RSD",
+    price: "1.400 RSD",
     description: "Klasično ili moderno šišanje uz pranje kose i stilizovanje.",
     icon: <Scissors className="w-6 h-6" />
   },
