@@ -76,7 +76,7 @@ const Lightbox = ({ isOpen, image, onClose }: { isOpen: boolean, image: string |
           >
             <button 
               onClick={onClose} 
-              className="absolute -top-12 right-0 md:-right-12 text-white/50 hover:text-gold transition-colors p-2"
+              className="absolute -top-12 right-0 md:-right-12 text-white/50 hover:text-gold transition-colors p-2 cursor-pointer"
               aria-label="Zatvori"
             >
               <X size={32} />
