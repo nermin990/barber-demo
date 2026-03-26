@@ -195,9 +195,9 @@ export default function App() {
           
           {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-[0.25em]">
-              <button onClick={() => scrollToSection('o-nama')} className="hover:text-gold transition-colors">O nama</button>
-              <button onClick={() => scrollToSection('usluge')} className="hover:text-gold transition-colors">Usluge</button>
-              <button onClick={() => scrollToSection('cenovnik')} className="hover:text-gold transition-colors">Cenovnik</button>
+              <button onClick={() => scrollToSection('o-nama')} className="hover:text-gold transition-colors cursor-pointer">O nama</button>
+              <button onClick={() => scrollToSection('usluge')} className="hover:text-gold transition-colors cursor-pointer">Usluge</button>
+              <button onClick={() => scrollToSection('cenovnik')} className="hover:text-gold transition-colors cursor-pointer">Cenovnik</button>
               <button onClick={() => scrollToSection('kontakt')} className="bg-gold text-black px-8 py-3 rounded-sm hover:bg-white transition-all duration-300">Zakaži</button>
             </div>
 
