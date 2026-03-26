@@ -583,8 +583,8 @@ export default function App() {
               <Reveal delay={0.2}>
                 <div className="aspect-[16/10] bg-white/5 rounded-sm overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-700 premium-shadow">
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2829.866584284451!2d20.45712431552033!3d44.82136497909874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab390317921%3A0x889d316474641e4!2sCara%20Du%C5%A1ana%2042%2C%20Beograd!5e0!3m2!1ssr!2srs!4v1648041234567!5m2!1ssr!2srs" 
-                    width="100%" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2829.9371135920724!2d20.457969076239188!3d44.82284577107067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab54ab3983f%3A0x1ec4017a3ed5eb2f!2sCara%20Du%C5%A1ana%2042%2C%20Beograd%2011000!5e0!3m2!1sen!2srs!4v1774534946543!5m2!1sen!2srs"
+                   width="100%" 
                     height="100%" 
                     style={{ border: 0, filter: 'invert(0.9) contrast(1.2)' }} 
                     allowFullScreen={true} 
